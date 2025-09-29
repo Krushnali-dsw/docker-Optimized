@@ -4,14 +4,6 @@
 
 This project demonstrates how to optimize a Docker image from **2.34GB to 208MB** - a **91.1% reduction** while maintaining full functionality.
 
-## 📊 Optimization Results
-
-| Stage | Image Type | Size | Reduction |
-|-------|------------|------|-----------|
-| Original | `python:3.11` base | **2.34GB** | - |
-| Optimized | `python:3.11-slim` | **735MB** | 68.6% ↓ |
-| Alpine | `python:3.11-alpine` | **619MB** | 73.6% ↓ |
-| **Final** | **Distroless multi-stage** | **🎯 208MB** | **91.1% ↓** |
 
 ## 🎯 Target Achieved
 - **Goal:** Under 300MB
