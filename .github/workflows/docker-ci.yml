@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   build:
@@ -22,6 +23,11 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Get branch name
+        id: branch
+        run: |
+          echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
 
       - name: Auto-bump version
         id: ver
@@ -52,4 +58,5 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/docker-optimized:${{ steps.ver.outputs.version }}
+            ${{ secrets.DOCKER_USERNAME }}/docker-optimized:${{ steps.branch.outputs.branch }}-${{ steps.ver.outputs.version }}
+            ${{ secrets.DOCKER_USERNAME }}/docker-optimized:${{ steps.branch.outputs.branch }}-latest
