@@ -28,5 +28,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-optimized:latest
-                ${{ secrets.DOCKER_USERNAME }}/docker-optimized:${{ github.sha }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/docker-optimized:latest
+            ${{ secrets.DOCKER_USERNAME }}/docker-optimized:${{ github.sha }}
