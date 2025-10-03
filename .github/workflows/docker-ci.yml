@@ -12,12 +12,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-      - name: Read version file
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Auto-bump version
         id: ver
         run: |
           if [ -f VERSION ]; then
-            echo "version=$(cat VERSION | tr -d '[:space:]')" >> $GITHUB_OUTPUT
+            current=$(cat VERSION | tr -d '[:space:]')
+            version=${current#v}
+            IFS='.' read -r major minor patch <<< "$version"
+            new_patch=$((patch + 1))
+            new_version="v${major}.${minor}.${new_patch}"
+            echo "$new_version" > VERSION
+            echo "version=$new_version" >> $GITHUB_OUTPUT
+            git add VERSION
+            git commit -m "bump version to $new_version [skip ci]"
+            git push
           else
             echo "version=dev" >> $GITHUB_OUTPUT
           fi
