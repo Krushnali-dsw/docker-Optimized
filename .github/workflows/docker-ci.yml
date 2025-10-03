@@ -1,5 +1,7 @@
 name: Build and Push Docker Image
 
+# Test change - new version tag workflow
+
 on:
   push:
     branches:
@@ -27,3 +29,4 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/docker-optimized:latest
+                ${{ secrets.DOCKER_USERNAME }}/docker-optimized:${{ github.sha }}
